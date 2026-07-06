@@ -20,6 +20,12 @@ The project started as a very compact personal setup script and has grown over t
 Run as root:
 
 ```bash
+curl -fsSL https://raw.githubusercontent.com/brightcolor/server-setup/master/setup.sh -o /tmp/server-setup.sh && bash /tmp/server-setup.sh
+```
+
+Readable variant:
+
+```bash
 curl -fsSL https://raw.githubusercontent.com/brightcolor/server-setup/master/setup.sh -o /tmp/server-setup.sh
 bash /tmp/server-setup.sh
 ```
