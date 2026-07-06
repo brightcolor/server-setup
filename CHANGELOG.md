@@ -14,4 +14,5 @@
 - Added `--dry-run`, `--no-packages`, `--no-auto-update`, `--update-only`, `--ref`, `--repo-url` and `--uninstall`.
 - Replaced the Python 2 MOTD update checker with a Bash implementation.
 - Modernized the system information MOTD script for current Debian/Ubuntu systems.
+- Guarded ISPConfig MOTD output behind an explicit ISPConfig installation check.
 - Removed insecure `--no-check-certificate` download behavior from the setup flow.

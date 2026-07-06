@@ -27,6 +27,8 @@ NC='\033[0m' # No Color
 printf "\n"
 if command -v figlet >/dev/null 2>&1 && [ -r /etc/update-motd.d/nancyj.flf ]; then
     printf "%b%s%b\n" "$GREEN" "$(figlet -c -f /etc/update-motd.d/nancyj.flf -w 120 "$(hostname -s | awk '{print toupper($0)}')")" "$NC"
+elif command -v figlet >/dev/null 2>&1; then
+    printf "%b%s%b\n" "$GREEN" "$(figlet -c -w 120 "$(hostname -s | awk '{print toupper($0)}')")" "$NC"
 else
     printf "%b%s%b\n" "$GREEN" "$(hostname -s | awk '{print toupper($0)}')" "$NC"
 fi

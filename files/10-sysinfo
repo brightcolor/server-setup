@@ -10,6 +10,7 @@ users_count="$(users | wc -w)"
 uptime_text="$(uptime -p 2>/dev/null | sed 's/^up //')"
 processes="$(ps -e --no-headers | wc -l)"
 primary_ip="$(hostname -I 2>/dev/null | awk '{print $1}')"
+ispconfig_config="/usr/local/ispconfig/server/lib/config.inc.php"
 
 printf "System information as of: %s\n\n" "$(date)"
 printf "System load:\t%s\tIP address:\t%s\n" "${load:-n/a}" "${primary_ip:-n/a}"
@@ -17,7 +18,7 @@ printf "Memory usage:\t%s\tSystem uptime:\t%s\n" "${memory_usage:-n/a}" "${uptim
 printf "Usage on /:\t%s\tSwap usage:\t%s\n" "${root_usage:-n/a}" "${swap_usage:-n/a}"
 printf "Local users:\t%s\tProcesses:\t%s\n\n" "$users_count" "$processes"
 
-if [ -r /usr/local/ispconfig/server/lib/config.inc.php ]; then
-    ispconfig_version="$(grep "ISPC_APP_VERSION" /usr/local/ispconfig/server/lib/config.inc.php | sed "s/.*'\\([^']*\\)'.*/\\1/")"
+if [ -d /usr/local/ispconfig ] && [ -r "$ispconfig_config" ]; then
+    ispconfig_version="$(grep "ISPC_APP_VERSION" "$ispconfig_config" | sed "s/.*'\\([^']*\\)'.*/\\1/")"
     printf "ISPConfig version:\t%s\n\n" "${ispconfig_version:-unknown}"
 fi
