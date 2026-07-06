@@ -11,6 +11,7 @@ The project started as a very compact personal setup script and has grown over t
 - ISPConfig helpers when `/usr/local/ispconfig` exists
 - Optional Docker aliases when Docker is installed
 - Dynamic MOTD scripts in `/etc/update-motd.d`
+- Ubuntu MOTD help/news blocks are disabled to keep logins focused
 - Daily auto-update timer via systemd
 - `server-setup` status/update/uninstall command
 - Backups before managed files are replaced

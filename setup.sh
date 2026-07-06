@@ -188,6 +188,8 @@ install_motd_files() {
         install_managed_file 0755 "$file" "/etc/update-motd.d/$(basename "$file")"
     done
 
+    disable_vendor_motd_noise
+
     if [ -L /etc/motd ]; then
         return
     fi
@@ -197,6 +199,20 @@ install_motd_files() {
     fi
 
     run ln -s /var/run/motd /etc/motd
+}
+
+disable_vendor_motd_noise() {
+    local script
+
+    for script in \
+        /etc/update-motd.d/10-help-text \
+        /etc/update-motd.d/50-motd-news \
+        /etc/update-motd.d/80-livepatch \
+        /etc/update-motd.d/85-fwupd \
+        /etc/update-motd.d/88-esm-announce; do
+        [ -e "$script" ] || continue
+        run chmod -x "$script"
+    done
 }
 
 install_auto_update() {
