@@ -51,6 +51,19 @@ if [ -d /usr/local/ispconfig ]; then
         cd "/var/www/$1"
     }
 
+    __sitecd_complete() {
+        local current="${COMP_WORDS[COMP_CWORD]}"
+        local sites=""
+
+        if [ -d /var/www ]; then
+            sites="$(find /var/www -mindepth 1 -maxdepth 1 \( -type d -o -type l \) -printf '%f\n' 2>/dev/null | grep -Ev '^(apps|clients|conf|html|ispconfig|localhost)$')"
+        fi
+
+        mapfile -t COMPREPLY < <(compgen -W "$sites" -- "$current")
+    }
+
+    complete -F __sitecd_complete sitecd
+
     mailq_count() {
         command -v postqueue >/dev/null 2>&1 || { echo "postqueue is not installed"; return 1; }
         postqueue -p | tail -n 1

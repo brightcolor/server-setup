@@ -137,6 +137,7 @@ web_configtest
 ```
 
 `wpcli` runs WP-CLI as the detected website owner.
+`sitecd` supports Bash completion for site entries found directly below `/var/www`.
 
 ## Server Role
 
