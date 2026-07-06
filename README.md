@@ -15,6 +15,7 @@ The project started as a very compact personal setup script and has grown over t
 - ISPConfig local and current versions are shown on ISPConfig servers
 - Daily auto-update timer via systemd
 - `server-setup` status/update/uninstall command
+- `server-setup hint <name>` command for the shell prompt label
 - Backups before managed files are replaced
 
 ## Install
@@ -148,6 +149,13 @@ Create `/etc/server-role` to show a role in the shell prompt:
 
 ```bash
 echo prod > /etc/server-role
+```
+
+Or use the helper command:
+
+```bash
+server-setup hint web
+server-setup hint prod-web01
 ```
 
 Examples:

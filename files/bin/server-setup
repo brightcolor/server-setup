@@ -9,10 +9,40 @@ usage() {
 Usage: server-setup <command>
 
 Commands:
+  hint <name>  Set the prompt hint shown as [name]
   status      Show installed version and timer status
   update      Pull the repository and reinstall managed files
   uninstall   Remove managed files and systemd units
 EOF
+}
+
+hint() {
+    local value="${1:-}"
+
+    if [ -z "$value" ]; then
+        if [ -r /etc/server-role ]; then
+            cat /etc/server-role
+            return
+        fi
+
+        echo "No server hint is set."
+        return 1
+    fi
+
+    case "$value" in
+        *[!a-zA-Z0-9_.:-]*)
+            echo "Use only letters, numbers, dot, underscore, colon or dash." >&2
+            return 2
+            ;;
+    esac
+
+    if [ "${#value}" -gt 24 ]; then
+        echo "Server hint must be 24 characters or shorter." >&2
+        return 2
+    fi
+
+    printf "%s\n" "$value" > /etc/server-role
+    echo "Server hint set to: $value"
 }
 
 status() {
@@ -36,6 +66,7 @@ status() {
 }
 
 case "${1:-}" in
+    hint) shift; hint "${1:-}" ;;
     status) status ;;
     update) exec bash "$INSTALL_DIR/setup.sh" --update-only --no-packages ;;
     uninstall) exec bash "$INSTALL_DIR/setup.sh" --uninstall ;;
