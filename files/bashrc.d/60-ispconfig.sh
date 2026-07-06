@@ -9,7 +9,7 @@ if [ -d /usr/local/ispconfig ]; then
     ispc_version() {
         local version_file="/usr/local/ispconfig/server/lib/config.inc.php"
         if [ -r "$version_file" ]; then
-            grep "ISPC_APP_VERSION" "$version_file" | sed "s/.*'\\([^']*\\)'.*/\\1/"
+            sed -nE "s/^[[:space:]]*define\([[:space:]]*'ISPC_APP_VERSION'[[:space:]]*,[[:space:]]*'([^']+)'.*/\1/p" "$version_file" | head -n 1
         else
             echo "ISPConfig version file not readable"
             return 1
