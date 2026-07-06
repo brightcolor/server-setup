@@ -207,6 +207,7 @@ disable_vendor_motd_noise() {
     for script in \
         /etc/update-motd.d/10-help-text \
         /etc/update-motd.d/50-motd-news \
+        /etc/update-motd.d/60-unminimize \
         /etc/update-motd.d/80-livepatch \
         /etc/update-motd.d/85-fwupd \
         /etc/update-motd.d/88-esm-announce; do

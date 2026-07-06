@@ -16,6 +16,10 @@ if [ -d /usr/local/ispconfig ]; then
         fi
     }
 
+    ispc_current_version() {
+        curl -fsSL --max-time 5 https://www.ispconfig.org/downloads/ispconfig3_version.txt 2>/dev/null | head -n 1
+    }
+
     ispc_services() {
         local units="apache2 nginx mariadb mysql postfix dovecot pure-ftpd-mysql bind9 named rspamd redis-server fail2ban"
         local unit
