@@ -1,0 +1,10 @@
+[Unit]
+Description=Run server-setup update daily
+
+[Timer]
+OnCalendar=daily
+RandomizedDelaySec=45m
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,9 @@
+[Unit]
+Description=Update server-setup managed files
+Documentation=https://github.com/brightcolor/server-setup
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash /opt/server-setup/setup.sh --update-only --no-packages

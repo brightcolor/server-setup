@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+INSTALL_DIR="${SERVER_SETUP_INSTALL_DIR:-/opt/server-setup}"
+
+usage() {
+    cat <<EOF
+Usage: server-setup <command>
+
+Commands:
+  status      Show installed version and timer status
+  update      Pull the repository and reinstall managed files
+  uninstall   Remove managed files and systemd units
+EOF
+}
+
+status() {
+    if [ ! -d "$INSTALL_DIR/.git" ]; then
+        echo "Repository: not installed at $INSTALL_DIR"
+        exit 1
+    fi
+
+    echo "Repository: $INSTALL_DIR"
+    echo "Remote:     $(git -C "$INSTALL_DIR" remote get-url origin 2>/dev/null || echo unknown)"
+    echo "Ref:        $(git -C "$INSTALL_DIR" rev-parse --abbrev-ref HEAD 2>/dev/null || echo detached)"
+    echo "Commit:     $(git -C "$INSTALL_DIR" rev-parse --short HEAD 2>/dev/null || echo unknown)"
+
+    if command -v systemctl >/dev/null 2>&1; then
+        if systemctl is-enabled --quiet server-setup-update.timer 2>/dev/null; then
+            echo "Timer:      enabled"
+        else
+            echo "Timer:      disabled"
+        fi
+    fi
+}
+
+case "${1:-}" in
+    status) status ;;
+    update) exec bash "$INSTALL_DIR/setup.sh" --update-only --no-packages ;;
+    uninstall) exec bash "$INSTALL_DIR/setup.sh" --uninstall ;;
+    -h|--help|"") usage ;;
+    *) echo "Unknown command: $1" >&2; usage; exit 2 ;;
+esac

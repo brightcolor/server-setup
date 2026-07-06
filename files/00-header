@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 #
 #    00-header - create the header of the MOTD
 #    Copyright (c) 2013 Nick Charlton
@@ -21,17 +21,15 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-[ -r /etc/lsb-release ] && . /etc/lsb-release
-
-if [ -z "$DISTRIB_DESCRIPTION" ] && [ -x /usr/bin/lsb_release ]; then
-        # Fall back to using the very slow lsb_release utility
-        DISTRIB_DESCRIPTION=$(lsb_release -s -d)
-fi
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 
 printf "\n"
-printf "${GREEN}$(figlet -c -f /etc/update-motd.d/nancyj.flf -w 120 $(hostname -s | awk '{print toupper($0)'})) ${NC}\n"
+if command -v figlet >/dev/null 2>&1 && [ -r /etc/update-motd.d/nancyj.flf ]; then
+    printf "%b%s%b\n" "$GREEN" "$(figlet -c -f /etc/update-motd.d/nancyj.flf -w 120 "$(hostname -s | awk '{print toupper($0)}')")" "$NC"
+else
+    printf "%b%s%b\n" "$GREEN" "$(hostname -s | awk '{print toupper($0)}')" "$NC"
+fi
 printf "\n"
 
 printf "Welcome to $(hostname -f) ($(uname -r))\n"
