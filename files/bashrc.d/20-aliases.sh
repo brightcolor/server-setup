@@ -39,3 +39,4 @@ alias nano='nano -w'
 mcv() {
     mc "/var/www/${1:-}"
 }
+alias wp='f=./index.php; [ -f "$f" ] || f=.; sudo -u "$(stat -c %U "$f" 2>/dev/null || stat -f %Su "$f")" /usr/local/bin/wp'
