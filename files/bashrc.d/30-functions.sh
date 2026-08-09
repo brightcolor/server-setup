@@ -43,3 +43,15 @@ transfer() {
     curl --progress-bar --upload-file "$1" "https://transfer.sh/$(basename "$1")"
     echo
 }
+
+wpdebug() {
+    local val
+    case "$1" in
+        on)  val=true ;;
+        off) val=false ;;
+        *) echo "Usage: wpdebug on|off" >&2; return 1 ;;
+    esac
+    wp config set WP_DEBUG "$val" --raw
+    wp config set WP_DEBUG_LOG "$val" --raw
+    wp config set WP_DEBUG_DISPLAY "$val" --raw
+}
